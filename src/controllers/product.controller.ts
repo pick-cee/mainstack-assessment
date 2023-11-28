@@ -38,7 +38,8 @@ export async function CreateProduct(
         ))
     }
     catch (err: any) {
-        return next(new CustomResponse(response).error(err.message, 500))
+        return
+        // return next(new CustomResponse(response).error(err.message, 500))
     }
 }
 

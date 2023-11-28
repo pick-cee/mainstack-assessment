@@ -25,7 +25,7 @@ class ProductService {
         category: string,
         image: any,
         description?: string,
-    ) {
+    ): Promise<any> {
         if (!name && !price && !image && !category) {
             throw new Error('Please fill all required fields')
         }

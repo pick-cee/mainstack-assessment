@@ -12,7 +12,7 @@ const port = process.env.PORT
 const connect = async () => {
     process.env.NODE_ENV === 'development' ?
         await mongoose.connect(`${process.env.MONGODB_URI}`)
-            .then(() => { console.log("Local Db connected successfully!"), { useNewUrlParser: true } })
+            .then(() => { console.log("Local Db connected successfully!"), { useNewUrlParser: true, useUnifiedTopology: true } })
             .catch(err => { console.log(err) })
         : await mongoose.connect(`${process.env.MONGODB_URI_CLOUD}`)
             .then(() => { console.log("Cluster Db connected successfully!") })
