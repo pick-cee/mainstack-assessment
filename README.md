@@ -68,7 +68,7 @@ The application will be available at `http://localhost:8080`.
 ### Postman Documentation
 
 The postman documentation contains all the available endpoints with sample requests and responses for each endpooint. The link to the docs is attached below:
-[postman docs]().
+[postman docs](https://documenter.getpostman.com/view/16987750/2s9YeG6rfR).
 
 ### License
 
