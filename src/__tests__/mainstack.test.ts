@@ -3,18 +3,13 @@ import mongoose from 'mongoose'
 import request from 'supertest'
 import express from 'express'
 import formidable from 'express-formidable'
-import formidable1 from 'formidable'
 import userModel from '../models/user.model'
 import { LogIn, SignUp } from '../controllers/auth.controller'
 import prodService from '../services/product.services'
 import { CreateProduct } from '../controllers/product.controller'
-import { verifyToken } from '../middlewares/verifyToken'
-import cloudinary from "cloudinary";
-import { before, mock } from 'node:test'
-import productsModel from '../models/products.model'
-import * as cloudinaryU from '../utils/cloudinary'
-import { response } from 'pactum'
+import cloudinaryUpload from '../utils/cloudinary'
 
+import { before } from 'node:test'
 
 let mongoServer: MongoMemoryServer
 let app: express.Application
@@ -143,28 +138,36 @@ describe('Auth Controller', () => {
     });
 });
 
+jest.mock('../utils/cloudinary.ts', () => ({
+    cloudinaryUpload: jest.fn()
+}))
 
-describe('Product Controller', () => {
+describe('Product controller', () => {
     it('should create a new product', async () => {
-        const mockRequest = {
+        const req: any = {
             fields: {
-                data: JSON.stringify({
-                    name: 'Test Product',
-                    price: 10,
-                    description: 'Product description',
-                    category: 'Electronics',
-                }),
-            },
-            files: {
-                file: { path: '/path/to/mock/image.jpg' },
+                data: {
+                    name: 'Test product',
+                    price: 1000,
+                    category: 'Electonics',
+                    description: 'Testing....'
+                },
+                files: {
+                    file: '/image.jpeg'
+                }
             }
         }
-        const cloudinarySpy = jest.spyOn(cloudinary.v2.uploader, 'upload') as any
-        const cloud = cloudinarySpy.mockResolvedValue({ secure_url: 'https://test-image-url.com' })
+        const res: any = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
 
-        const response = await request(app)
-            .post('/api/v1/product/create')
-            .send(mockRequest)
-            .expect(201)
+        const next: any = jest.fn()
+
+            (cloudinaryUpload as jest.Mock).mockResolvedValue('mockImageUrl')
+
+        await CreateProduct(req, res, next)
+
+        expect(res.status).toHaveBeenCalledWith(201)
     })
 })
