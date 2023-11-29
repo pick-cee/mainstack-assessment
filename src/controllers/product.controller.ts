@@ -24,7 +24,6 @@ export async function CreateProduct(
     const { name, price, description, category } = data;
 
     const image = request.files?.file;
-    console.log(request.user)
     try {
         await prodService.createProduct(name, price, category, image, description)
         return next(new CustomResponse(response).success(
@@ -38,8 +37,7 @@ export async function CreateProduct(
         ))
     }
     catch (err: any) {
-        return
-        // return next(new CustomResponse(response).error(err.message, 500))
+        return next(new CustomResponse(response).error(err.message, 500))
     }
 }
 

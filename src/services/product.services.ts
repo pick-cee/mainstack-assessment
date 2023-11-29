@@ -47,7 +47,7 @@ class ProductService {
                     throw new Error(`CLOUDINARY ERROR => ${err.message}`)
                 })
         }
-        await data.save()
+        return await data.save()
     }
 
 
