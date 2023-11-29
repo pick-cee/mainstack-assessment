@@ -4,7 +4,7 @@ import ProductService from '../services/product.services';
 import CustomException from '../utils/error.handler';
 import CustomResponse from '../utils/response.handler';
 
-let prodService: ProductService
+const prodService = new ProductService
 
 /**
  * @description This allows a user to create a product once logged in
